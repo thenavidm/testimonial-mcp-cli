@@ -7,7 +7,7 @@ install:
   check: "testimonial-cli --version"
 ---
 
-STOP if --version fails; install the current scoped package and verify Node22+. Discover actual tools/schema/help before work. login prints instructions; doctor is local unless explicitly --network. Credentials remain private runtime settings.
+STOP if --version fails; install the current scoped package and verify Node 22+. Discover actual tools/schema/help before work. login prints instructions; doctor is local unless explicitly --network. Credentials remain private runtime settings.
 
 ~~~bash
 testimonial-cli tools
@@ -25,11 +25,11 @@ The client uses a fixed HTTPS provider origin and reviewed routes, bounded bodie
 
 ### Review exact ordered imports and request emails
 
-preview_testimonial_batch locally validates1–20 ordered native mutations and produces a reviewSha256. Each task has tool/arguments; nested arguments cannot override account, local confirm, payload_file or output_file. Native payload.confirm and customer_consent remain consent fields. No network call or private key load occurs during preview.
+preview_testimonial_batch locally validates 1–20 ordered native mutations and produces a reviewSha256. Each task has tool/arguments; nested arguments cannot override account, local confirm, payload_file or output_file. Native payload.confirm and customer_consent remain consent fields. No network call or private key load occurs during preview.
 
 submit_testimonial_batch requires outer confirm and the matching review_sha256 with identical requests/order/profile label/schema. Every task is prepared before the first network call. Changing any consent, recipient, statement, account label, order or native schema invalidates the hash. Review hashes do not bind a credential fingerprint, prove Space ownership, lock native state, establish customer consent, expire or become single-use provider approvals.
 
-On first failure execution stops with knownResults, failedIndex and unattemptedIndices. HTTP200 status failed is an error, not a successful imported record. Failed effects may have unknown outcomes; no retry, rollback or automatic continuation occurs. Do not promise emailed delivery or processed video based on native request acceptance.
+On first failure execution stops with knownResults, failedIndex and unattemptedIndices. HTTP 200 status failed is an error, not a successful imported record. Failed effects may have unknown outcomes; no retry, rollback or automatic continuation occurs. Do not promise emailed delivery or processed video based on native request acceptance.
 
 ~~~bash
 testimonial-cli preview-testimonial-batch --help
@@ -39,7 +39,7 @@ testimonial-cli submit-testimonial-batch --help
 
 ### Save a bounded private export
 
-export_testimonials performs one GET /testimonials with default limit100, local maximum10000 and5MiB response/file cap. It saves {testimonials,receipt} to an absolute new exclusive0600 file in an existing private directory. Existing files/symlinks are never overwritten. On failure only its newly created partial file is removed. Windows ACLs must be restricted separately.
+export_testimonials performs one GET /testimonials with default limit 100, local maximum 10,000 and 5 MiB response/file cap. It saves {testimonials,receipt} to an absolute new exclusive mode 0600 file in an existing private directory. Existing files/symlinks are never overwritten. On failure only its newly created partial file is removed. Windows ACLs must be restricted separately.
 
 The receipt includes requests/items/requestedLimit/atNativeLimit/completeBackup:false/paginationSupported:false/atomicSnapshot:false plus the local byte count/hash. At the native limit, additional matching records may exist. Even fewer records do not prove a complete archive because processing, changing state and native filters affect visibility. No cursor/page/offset, continuation, media retrieval, native backup, CSV conversion or public upload is implied. Treat saved customer data privately.
 

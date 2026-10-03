@@ -1,6 +1,6 @@
 # Testimonial.to comparison
 
-Checked2026-10-03.
+Checked 2026-10-03.
 
 ### Official hosted account MCP
 
@@ -10,7 +10,7 @@ Use the official connector for that wider native experience. REST Space keys and
 
 ### Real terminal alternatives
 
-A dedicated provider task CLI was not identified in the reviewed sources on October3,2026. That does not mean the official MCP cannot be used from a terminal. [wong2/mcp-cli](https://github.com/wong2/mcp-cli/tree/7d12b4648b1c3e2a7341113407002c1b0f700d1b), pinned at7d12b4648b1c3e2a7341113407002c1b0f700d1b, supports remote Streamable HTTP/SSE, OAuth and non-interactive tool calls. The official MCP Inspector also supports CLI calls. They can call the broad official connector using its native authorization and approved tools.
+A dedicated provider task CLI was not identified in the reviewed sources on October 3, 2026. That does not mean the official MCP cannot be used from a terminal. [wong2/mcp-cli](https://github.com/wong2/mcp-cli/tree/7d12b4648b1c3e2a7341113407002c1b0f700d1b), pinned at 7d12b4648b1c3e2a7341113407002c1b0f700d1b, supports remote Streamable HTTP/SSE, OAuth and non-interactive tool calls. The official MCP Inspector also supports CLI calls. They can call the broad official connector using its native authorization and approved tools.
 
 Searches for Testimonial-specific public MCP/task-CLI repositories did not identify an independent source suitable to pin; this is a search finding, not evidence none exist. The private old five-tool repo is separately reviewed, not misrepresented as an independent community implementation.
 

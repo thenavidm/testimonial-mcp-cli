@@ -1,6 +1,6 @@
 # Install Testimonial.to MCP Server & CLI
 
-One package contains10 shared tools, both named binaries and a bundled desktop extension. Node22+ is required.
+One package contains 10 shared tools, both named binaries and a bundled desktop extension. Node 22+ is required.
 
 ## Requirements
 
@@ -24,7 +24,7 @@ Alternatively use npx -y --package @thenavidm/testimonial-mcp-cli@latest testimo
 1. Sign into [Testimonial.to](https://testimonial.to) and identify the Space whose proof you intend to read or import. Each REST API key belongs to one Space. It does not select another Space through spaceId, nor does it inherit a browser session.
 2. On the dashboard Space card, open its three-dot menu and choose **API key**, then **Copy API Key**. The current [REST list documentation](https://help.testimonial.to/en/articles/6223143-api-get-all-testimonials) specifies Ultimate and Ultimate+ per Space; Free/Starter API Key controls require an upgrade. Verify the current plan and access in your own account. The wrapper grants no plan bypass.
 3. Configure exactly one of TESTIMONIAL_API_KEY or TESTIMONIAL_TOKEN_FILE in the private process settings. The client sends Authorization: Bearer. Do not include the word Bearer in the value, use your password, or copy a hosted MCP access-token URL as a Space key.
-4. Token files must be absolute, regular, non-symlink, token-only files outside repositories, at most 64 KiB. On macOS/Linux the file must be owned by your runtime user and mode0600; restrict its parent directory too. Windows users must restrict file and directory ACLs separately. GUI apps, containers and remote machines need readable private credentials in their own runtime.
+4. Token files must be absolute, regular, non-symlink, token-only files outside repositories, at most 64 KiB. On macOS/Linux the file must be owned by your runtime user and mode 0600; restrict its parent directory too. Windows users must restrict file and directory ACLs separately. GUI apps, containers and remote machines need readable private credentials in their own runtime.
 5. Run testimonial-cli doctor to inspect local profile configuration. Deliberate doctor --network calls GET /verify but prints success metadata without echoing the native account email or Space id. It proves one key request, not ownership, all tool permission, successful media processing or delivered email.
 
 login prints these instructions only. The package never loads .env files, opens sign-in, creates or rotates keys, imports cookies or refreshes OAuth. Do not put credentials or customer statements in public issues, screenshots, repositories, prompts or exported public examples.
@@ -37,11 +37,11 @@ Token files cache until process restart. Update private credentials and restart 
 
 ### Native effects and local limits
 
-The REST subset is five documented operations. Native list returns a single array; there is no page, offset or cursor. Only processed ready videos are returned. Repeated tag query values match any listed display name. limit is a result cap. The local maximum10000 is an implementation bound, not a documented native quota.
+The REST subset is five documented operations. Native list returns a single array; there is no page, offset or cursor. Only processed ready videos are returned. Repeated tag query values match any listed display name. limit is a result cap. The local maximum 10,000 is an implementation bound, not a documented native quota.
 
 All imports, side-effecting GET request emails, reviewed execution and file exports require local confirm. Native customer permission is customer_consent or payload.confirm, independently defaulting false. isLiked adds proof to the Wall of Love and is refused locally unless actual native customer consent is true. This stricter local policy does not create or verify permission. Retain actual authorization for the statement/media and public use; never manufacture it to get a command to pass.
 
-Requests are spaced250ms by default with30-second timeout,1MiB bodies and5MiB responses. Other processes may share native limits. Redirects and retries are disabled. The provider may retrieve the supplied media URL and process video asynchronously; the package does not download/follow it. A failed write can have an unknown outcome. Inspect provider state before a deliberate repeat.
+Requests are spaced 250 ms by default with a 30-second timeout, 1 MiB bodies and 5 MiB responses. Other processes may share native limits. Redirects and retries are disabled. The provider may retrieve the supplied media URL and process video asynchronously; the package does not download/follow it. A failed write can have an unknown outcome. Inspect provider state before a deliberate repeat.
 
 
 ## Codex
@@ -73,7 +73,7 @@ claude mcp add --scope user testimonial -- npx -y @thenavidm/testimonial-mcp-cli
 claude mcp list
 ~~~
 
-Use the client's private local environment settings for the account variable if they are not inherited. Claude's `-e NAME=value` registration option writes values into its config; only use it locally through your secret manager, with no shared command transcript. Never place credentials in a Space .mcp.json. Reconnect and ask Claude to verify credentials.
+Use the client's private local environment settings for the account variable if they are not inherited. Claude's `-e NAME=value` registration option writes values into its config; only use it locally through your secret manager, with no shared command transcript. Never place credentials in a project .mcp.json. Reconnect and ask Claude to verify credentials.
 
 Alternatively install the CLI, make SKILL.md available to Claude, and use shell commands. Registering both surfaces is optional.
 
@@ -248,7 +248,7 @@ npm uninstall -g @thenavidm/testimonial-mcp-cli
 | 401/403 | Actual Space key and current plan/permission; never fall back across profiles |
 | No video returned | Native list only includes ready assets; check processing in the dashboard |
 | page/spaceId rejected | Current Space-scoped list is a single array without pagination |
-| Native status failed | Treat as operation error even with HTTP200; no automatic repeat |
+| Native status failed | Treat as operation error even with HTTP 200; no automatic repeat |
 | Email refused | Actual four query fields and explicit local approval; GET is a write |
 | Consent/publication refused | Local approval does not establish customer public-use permission |
 | Batch hash mismatch | Review exact unchanged inputs/order/profile/schema again |

@@ -9,13 +9,13 @@
 [![X](https://img.shields.io/badge/X-@thenavidm-black?logo=x)](https://x.com/thenavidm)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-thenavidm-0A66C2?logo=linkedin&logoColor=white)](https://linkedin.com/in/thenavidm)
 
-Testimonial.to MCP server and CLI for Codex and AI agents.10 shared tools for current Space testimonials, separate customer consent, reviewed imports/email requests and bounded private exports.
+Testimonial.to MCP server and CLI for Codex and AI agents. 10 shared tools for current Space testimonials, separate customer consent, reviewed imports/email requests and bounded private exports.
 
 Built and maintained by [Navid Moazzez](https://navid.me?utm_source=github&utm_medium=referral&utm_campaign=testimonial-mcp-cli&utm_content=readme). Full setup is on [navid.me](https://navid.me/mcp-servers/testimonial).
 
 <img src="https://cdn.navid.me/repos/testimonial-mcp-cli-retina.gif" alt="Illustrated Testimonial.to workflow in the actual house terminal component" width="520">
 
-The native animation illustrates shipped tools, not real customer messages. Node22+ and a private intended-Space REST key are required for provider work. Official hosted MCP is broader and already supplies native approvals and automation; compare both below.
+The native animation illustrates shipped tools, not real customer messages. Node 22+ and a private intended-Space REST key are required for provider work. Official hosted MCP is broader and already supplies native approvals and automation; compare both below.
 
 ## Two ways to use it
 
@@ -38,7 +38,7 @@ Configure private runtime credentials before native calls; inspect existing proo
 
 ### Which one
 
-Use MCP for structured client tasks or CLI for scripts/agent shell commands. Both use the same10 native handlers and local approval rules. Neither eliminates native account restrictions or task context costs.
+Use MCP for structured client tasks or CLI for scripts/agent shell commands. Both use the same 10 shared handlers and local approval rules. Neither eliminates native account restrictions or task context costs.
 
 ## Features
 
@@ -134,7 +134,7 @@ testimonial-cli login
 1. Sign into [Testimonial.to](https://testimonial.to) and identify the Space whose proof you intend to read or import. Each REST API key belongs to one Space. It does not select another Space through spaceId, nor does it inherit a browser session.
 2. On the dashboard Space card, open its three-dot menu and choose **API key**, then **Copy API Key**. The current [REST list documentation](https://help.testimonial.to/en/articles/6223143-api-get-all-testimonials) specifies Ultimate and Ultimate+ per Space; Free/Starter API Key controls require an upgrade. Verify the current plan and access in your own account. The wrapper grants no plan bypass.
 3. Configure exactly one of TESTIMONIAL_API_KEY or TESTIMONIAL_TOKEN_FILE in the private process settings. The client sends Authorization: Bearer. Do not include the word Bearer in the value, use your password, or copy a hosted MCP access-token URL as a Space key.
-4. Token files must be absolute, regular, non-symlink, token-only files outside repositories, at most 64 KiB. On macOS/Linux the file must be owned by your runtime user and mode0600; restrict its parent directory too. Windows users must restrict file and directory ACLs separately. GUI apps, containers and remote machines need readable private credentials in their own runtime.
+4. Token files must be absolute, regular, non-symlink, token-only files outside repositories, at most 64 KiB. On macOS/Linux the file must be owned by your runtime user and mode 0600; restrict its parent directory too. Windows users must restrict file and directory ACLs separately. GUI apps, containers and remote machines need readable private credentials in their own runtime.
 5. Run testimonial-cli doctor to inspect local profile configuration. Deliberate doctor --network calls GET /verify but prints success metadata without echoing the native account email or Space id. It proves one key request, not ownership, all tool permission, successful media processing or delivered email.
 
 login prints these instructions only. The package never loads .env files, opens sign-in, creates or rotates keys, imports cookies or refreshes OAuth. Do not put credentials or customer statements in public issues, screenshots, repositories, prompts or exported public examples.
@@ -147,18 +147,18 @@ Token files cache until process restart. Update private credentials and restart 
 
 ### Native effects and local limits
 
-The REST subset is five documented operations. Native list returns a single array; there is no page, offset or cursor. Only processed ready videos are returned. Repeated tag query values match any listed display name. limit is a result cap. The local maximum10000 is an implementation bound, not a documented native quota.
+The REST subset is five documented operations. Native list returns a single array; there is no page, offset or cursor. Only processed ready videos are returned. Repeated tag query values match any listed display name. limit is a result cap. The local maximum 10,000 is an implementation bound, not a documented native quota.
 
 All imports, side-effecting GET request emails, reviewed execution and file exports require local confirm. Native customer permission is customer_consent or payload.confirm, independently defaulting false. isLiked adds proof to the Wall of Love and is refused locally unless actual native customer consent is true. This stricter local policy does not create or verify permission. Retain actual authorization for the statement/media and public use; never manufacture it to get a command to pass.
 
-Requests are spaced250ms by default with30-second timeout,1MiB bodies and5MiB responses. Other processes may share native limits. Redirects and retries are disabled. The provider may retrieve the supplied media URL and process video asynchronously; the package does not download/follow it. A failed write can have an unknown outcome. Inspect provider state before a deliberate repeat.
+Requests are spaced 250 ms by default with a 30-second timeout, 1 MiB bodies and 5 MiB responses. Other processes may share native limits. Redirects and retries are disabled. The provider may retrieve the supplied media URL and process video asynchronously; the package does not download/follow it. A failed write can have an unknown outcome. Inspect provider state before a deliberate repeat.
 
 
 ## 4. Connect your client
 
 Full client/OS/private credentials and desktop steps are in [INSTALL.md](INSTALL.md).
 
-## Codex
+### Codex
 
 Codex is the current validation priority. Private token paths must exist in the process or remote environment where the server runs.
 
@@ -178,7 +178,7 @@ env_vars = ["TESTIMONIAL_API_KEY", "TESTIMONIAL_TOKEN_FILE", "TESTIMONIAL_ACCOUN
 
 `env_vars` forwards those names from the environment available to Codex. If that environment does not contain them, configure private env settings locally. Codex can also call the CLI directly with SKILL.md and `--agent` output.
 
-## Claude Code
+### Claude Code
 
 For a user-scoped connection, after privately configuring credentials:
 
@@ -187,13 +187,13 @@ claude mcp add --scope user testimonial -- npx -y @thenavidm/testimonial-mcp-cli
 claude mcp list
 ~~~
 
-Use the client's private local environment settings for the account variable if they are not inherited. Claude's `-e NAME=value` registration option writes values into its config; only use it locally through your secret manager, with no shared command transcript. Never place credentials in a Space .mcp.json. Reconnect and ask Claude to verify credentials.
+Use the client's private local environment settings for the account variable if they are not inherited. Claude's `-e NAME=value` registration option writes values into its config; only use it locally through your secret manager, with no shared command transcript. Never place credentials in a project .mcp.json. Reconnect and ask Claude to verify credentials.
 
 Alternatively install the CLI, make SKILL.md available to Claude, and use shell commands. Registering both surfaces is optional.
 
-## Claude Desktop
+### Claude Desktop
 
-### Install the .mcpb extension
+#### Install the .mcpb extension
 
 1. Download `testimonial-2.0.0.mcpb` from [GitHub Releases](https://github.com/thenavidm/testimonial-mcp-cli/releases/latest).
 2. In a supported Claude Desktop build, open **Settings > Extensions > Advanced settings > Install Extension…** and select it.
@@ -202,7 +202,7 @@ Alternatively install the CLI, make SKILL.md available to Claude, and use shell 
 
 The bundle includes production dependencies and no credentials. Use a regular private token-only file if you prefer file-based credentials. The manifest requires Node 22 or newer from a compatible host. Organization policy may restrict custom extensions. Manual bundle updates require installing the new version; no automatic directory updates are promised. GUI installation remains unverified separately from archive/protocol checks.
 
-### Manual config
+#### Manual config
 
 Open **Settings > Developer > Edit Config**, or use your platform's config file:
 
@@ -231,7 +231,7 @@ Replace the placeholders only in your private file. Merge the server entry into 
 
 If a Windows launcher cannot execute npx directly, use `"command": "cmd"` with `"args": ["/c", "npx", "-y", "@thenavidm/testimonial-mcp-cli@latest"]`. An absolute node executable and installed `dist/index.js` path also avoids launcher/PATH problems.
 
-## Cursor
+### Cursor
 
 Use private user settings at `~/.cursor/mcp.json`, or **Settings > Tools & MCP**. [Cursor documents environment interpolation and envFile support](https://cursor.com/docs/mcp).
 
@@ -253,7 +253,7 @@ Use private user settings at `~/.cursor/mcp.json`, or **Settings > Tools & MCP**
 
 The environment values must exist for the Cursor process. If you use envFile, keep that file private and outside version control. A Space's .cursor/mcp.json must not contain actual credentials. Reconnect the server after saving.
 
-## VS Code and Copilot
+### VS Code and Copilot
 
 Use **MCP: Open User Configuration**. [VS Code uses servers and secure inputs](https://code.visualstudio.com/docs/agent-customization/mcp-servers), rather than a mcpServers root:
 
@@ -279,11 +279,11 @@ Use **MCP: Open User Configuration**. [VS Code uses servers and secure inputs](h
 
 Start Testimonial.to through the MCP controls, approve trust if prompted, and enter credentials in the private input prompts. Workspace .vscode/mcp.json may contain this placeholder-only structure, but never resolved secret values. Remote development runs the server in the selected remote environment, so local file paths refer to that environment.
 
-## Windsurf
+### Windsurf
 
 Open Cascade's MCP settings or edit the private user file `~/.codeium/windsurf/mcp_config.json`. Use the Claude Desktop manual mcpServers block above with your locally configured env values. See [Windsurf's current MCP documentation](https://docs.devin.ai/desktop/cascade/mcp). Restart or reconnect Testimonial.to in Cascade; Space files must not contain secrets.
 
-## Zed
+### Zed
 
 Open **Settings > AI > MCP Servers > Add Server > Add Local Server**, or your user settings file. [Zed uses context_servers](https://zed.dev/docs/ai/mcp):
 
@@ -304,13 +304,13 @@ Open **Settings > AI > MCP Servers > Add Server > Add Local Server**, or your us
 
 Enter actual values only in private user settings. Check the active-server indicator before prompting. Do not wrap command and args inside a nested command object from older Zed examples.
 
-## Gemini CLI
+### Gemini CLI
 
 Merge the Claude Desktop manual mcpServers block into your private `~/.gemini/settings.json`. Configure the private credential values locally, then restart Gemini CLI and inspect `/mcp`. See [Gemini CLI's MCP configuration](https://geminicli.com/docs/tools/mcp-server/). Its Space settings must not contain real credentials. You can instead use the CLI from an agent shell.
 
 Other local stdio clients use the same command and arguments, adapted to their config format. A client that only accepts a remote MCP URL cannot connect directly: this package does not ship a public HTTP listener. ChatGPT's remote connector setup is not a substitute for local stdio installation.
 
-## Docker
+### Docker
 
 Build locally from the reviewed source; no prebuilt registry image is claimed:
 
@@ -322,7 +322,7 @@ docker run --rm -i -e TESTIMONIAL_API_KEY testimonial-mcp-cli
 ```
 
 
-## Cline and other local MCP clients
+### Cline and other local MCP clients
 
 Use the client's **Add MCP server** flow with command `npx`, arguments `-y` and `@thenavidm/testimonial-mcp-cli@latest`, stdio transport, and private local TESTIMONIAL_API_KEY or TESTIMONIAL_TOKEN_FILE settings. UI names depend on the installed client. Reconnect and discover tools before an account call. Browser-only clients need a remote HTTPS connector; use Testimonial.to's official server rather than this local stdio command.
 
@@ -1345,7 +1345,7 @@ testimonial-cli schema submit-testimonial-batch
 
 #### export_testimonials
 
-Confirmed single native GET saved to a new exclusive0600 JSON file, default limit100/local max10000 and5MiB response/file cap. No pagination, continuation, media download, overwrite or atomic complete-backup claim.
+Confirmed single native GET saved to a new exclusive mode 0600 JSON file, default limit 100/local max10000 and 5 MiB response/file cap. No pagination, continuation, media download, overwrite or atomic complete-backup claim.
 
 | Argument | Type | Required | Meaning and constraints |
 | --- | --- | --- | --- |
@@ -1457,15 +1457,36 @@ testimonial-cli schema send-testimonial-request
 The old update_testimonial tool is excluded because the reviewed current REST sources do not establish that endpoint. Manage existing Wall of Love proof with the official hosted MCP or dashboard; do not invent PUT /testimonials/{id}.
 
 
+### Complete command examples
+
+The following commands contain fictional example data and are documentation only. Replace them with the exact requested recipient or authorized customer material and intended Space profile. Running a confirmed command performs a real import or sends an email. Omitted customer consent keeps the imported proof private; only assert customer_consent when actual public-use permission exists.
+
+~~~bash
+testimonial-cli submit-text-testimonial --name "Example customer" --testimonial "An authorized customer statement" --confirm --agent
+testimonial-cli submit-video-testimonial --name "Example customer" --videoURL "https://example.com/authorized-video.mp4" --confirm --agent
+~~~
+
+Email request example (four native required fields):
+
+~~~bash
+testimonial-cli send-testimonial-request --name "Example customer" --email "customer@example.com" --spaceName "Example product" --adminName "Example sender" --confirm --agent
+~~~
+
+A local preview makes no provider request. Record its reviewSha256, inspect the exact work, then use the same task JSON/profile with submit-testimonial-batch --review-sha256 "SHA256_FROM_YOUR_PREVIEW" --confirm only when that work is requested:
+
+~~~bash
+testimonial-cli preview-testimonial-batch --tasks '{"tool":"submit_text_testimonial","arguments":{"name":"Example customer","testimonial":"An authorized customer statement"}}' --agent
+~~~
+
 ## 10. Exact reviewed batches and private exports
 
 ### Review exact ordered imports and request emails
 
-preview_testimonial_batch locally validates1–20 ordered native mutations and produces a reviewSha256. Each task has tool/arguments; nested arguments cannot override account, local confirm, payload_file or output_file. Native payload.confirm and customer_consent remain consent fields. No network call or private key load occurs during preview.
+preview_testimonial_batch locally validates 1–20 ordered native mutations and produces a reviewSha256. Each task has tool/arguments; nested arguments cannot override account, local confirm, payload_file or output_file. Native payload.confirm and customer_consent remain consent fields. No network call or private key load occurs during preview.
 
 submit_testimonial_batch requires outer confirm and the matching review_sha256 with identical requests/order/profile label/schema. Every task is prepared before the first network call. Changing any consent, recipient, statement, account label, order or native schema invalidates the hash. Review hashes do not bind a credential fingerprint, prove Space ownership, lock native state, establish customer consent, expire or become single-use provider approvals.
 
-On first failure execution stops with knownResults, failedIndex and unattemptedIndices. HTTP200 status failed is an error, not a successful imported record. Failed effects may have unknown outcomes; no retry, rollback or automatic continuation occurs. Do not promise emailed delivery or processed video based on native request acceptance.
+On first failure execution stops with knownResults, failedIndex and unattemptedIndices. HTTP 200 status failed is an error, not a successful imported record. Failed effects may have unknown outcomes; no retry, rollback or automatic continuation occurs. Do not promise emailed delivery or processed video based on native request acceptance.
 
 ~~~bash
 testimonial-cli preview-testimonial-batch --help
@@ -1475,7 +1496,7 @@ testimonial-cli submit-testimonial-batch --help
 
 ### Save a bounded private export
 
-export_testimonials performs one GET /testimonials with default limit100, local maximum10000 and5MiB response/file cap. It saves {testimonials,receipt} to an absolute new exclusive0600 file in an existing private directory. Existing files/symlinks are never overwritten. On failure only its newly created partial file is removed. Windows ACLs must be restricted separately.
+export_testimonials performs one GET /testimonials with default limit 100, local maximum 10,000 and 5 MiB response/file cap. It saves {testimonials,receipt} to an absolute new exclusive mode 0600 file in an existing private directory. Existing files/symlinks are never overwritten. On failure only its newly created partial file is removed. Windows ACLs must be restricted separately.
 
 The receipt includes requests/items/requestedLimit/atNativeLimit/completeBackup:false/paginationSupported:false/atomicSnapshot:false plus the local byte count/hash. At the native limit, additional matching records may exist. Even fewer records do not prove a complete archive because processing, changing state and native filters affect visibility. No cursor/page/offset, continuation, media retrieval, native backup, CSV conversion or public upload is implied. Treat saved customer data privately.
 
@@ -1539,7 +1560,7 @@ Restart after credential changes; update npx/global/bundle installations using [
 | 401/403 | Actual Space key and current plan/permission; never fall back across profiles |
 | No video returned | Native list only includes ready assets; check processing in the dashboard |
 | page/spaceId rejected | Current Space-scoped list is a single array without pagination |
-| Native status failed | Treat as operation error even with HTTP200; no automatic repeat |
+| Native status failed | Treat as operation error even with HTTP 200; no automatic repeat |
 | Email refused | Actual four query fields and explicit local approval; GET is a write |
 | Consent/publication refused | Local approval does not establish customer public-use permission |
 | Batch hash mismatch | Review exact unchanged inputs/order/profile/schema again |
@@ -1557,7 +1578,7 @@ Use the official connector for that wider native experience. REST Space keys and
 
 ### Real terminal alternatives
 
-A dedicated provider task CLI was not identified in the reviewed sources on October3,2026. That does not mean the official MCP cannot be used from a terminal. [wong2/mcp-cli](https://github.com/wong2/mcp-cli/tree/7d12b4648b1c3e2a7341113407002c1b0f700d1b), pinned at7d12b4648b1c3e2a7341113407002c1b0f700d1b, supports remote Streamable HTTP/SSE, OAuth and non-interactive tool calls. The official MCP Inspector also supports CLI calls. They can call the broad official connector using its native authorization and approved tools.
+A dedicated provider task CLI was not identified in the reviewed sources on October 3, 2026. That does not mean the official MCP cannot be used from a terminal. [wong2/mcp-cli](https://github.com/wong2/mcp-cli/tree/7d12b4648b1c3e2a7341113407002c1b0f700d1b), pinned at 7d12b4648b1c3e2a7341113407002c1b0f700d1b, supports remote Streamable HTTP/SSE, OAuth and non-interactive tool calls. The official MCP Inspector also supports CLI calls. They can call the broad official connector using its native authorization and approved tools.
 
 Searches for Testimonial-specific public MCP/task-CLI repositories did not identify an independent source suitable to pin; this is a search finding, not evidence none exist. The private old five-tool repo is separately reviewed, not misrepresented as an independent community implementation.
 
@@ -1578,7 +1599,7 @@ No universal superiority, more-total-provider-coverage or measured token saving 
 
 ## 19. Versions and migration
 
-| Legacy tool | Current2.0.0 contract |
+| Legacy tool | Current 2.0.0 contract |
 | --- | --- |
 | list_testimonials | Same name, selected Space key, native single-array filters; no spaceId/page/per_page |
 | submit_text_testimonial | Same name, POST/submit/text with testimonial/name and separate consent |
@@ -1586,13 +1607,13 @@ No universal superiority, more-total-provider-coverage or measured token saving 
 | update_testimonial | Excluded: current reviewed REST contract not established; use hosted MCP/dashboard |
 | send_testimonial_request | Same name, confirmed GET/new/request with four required fields |
 
-Private five-tool1.0.0 history stays intact and out of public refs. Version2.0.0 is a major native argument/route correction, not a claim every legacy capability remains valid. AGPL-3.0 is preserved.
+Private five-tool 1.0.0 history stays intact and out of public refs. Version 2.0.0 is a major native argument/route correction, not a claim every legacy capability remains valid. AGPL-3.0 is preserved.
 
 | Component | Reviewed version |
 | --- | --- |
 | Package/desktop | 2.0.0 |
-| NativeREST | v1, five operations checked2026-10-03 |
-| GenericMCPCLI | 7d12b4648b1c3e2a7341113407002c1b0f700d1b |
+| Native REST | v1, five operations checked 2026-10-03 |
+| Generic MCP CLI | 7d12b4648b1c3e2a7341113407002c1b0f700d1b |
 | Node | >=22 |
 | Behavior/bridge checks | 54 passing tests |
 | Actual Codex task/token use | Pending |
@@ -1625,7 +1646,7 @@ Current REST docs specify Ultimate/Ultimate+ per Space. Copy the intended Space 
 <details>
 <summary><b>Where should credentials live?</b></summary>
 
-Use one private TESTIMONIAL_API_KEY or absolute owner-only TESTIMONIAL_TOKEN_FILE outside repositories, at most64KiB. Windows ACLs need separate restriction. Never publish resolved values, token URLs, keys or customer data in source, bundles, CMS or screenshots.
+Use one private TESTIMONIAL_API_KEY or absolute owner-only TESTIMONIAL_TOKEN_FILE outside repositories, at most 64 KiB. Windows ACLs need separate restriction. Never publish resolved values, token URLs, keys or customer data in source, bundles, CMS or screenshots.
 
 </details>
 
@@ -1660,14 +1681,14 @@ No reviewed REST contract for the legacy update endpoint was established. Use th
 <details>
 <summary><b>What is the difference between confirm and customer_consent?</b></summary>
 
-Outer confirm or --confirm is local approval for this requested operation. customer_consent or native payload.confirm represents actual customer permission for public use, defaultfalse. They never imply each other. Do not manufacture consent to satisfy a command.
+Outer confirm or --confirm is local approval for this requested operation. customer_consent or native payload.confirm represents actual customer permission for public use, default false. They never imply each other. Do not manufacture consent to satisfy a command.
 
 </details>
 
 <details>
 <summary><b>Does isLiked publish a testimonial?</b></summary>
 
-Native isLiked adds imported proof to the Wall of Love, defaultfalse. This package refuses isLiked true without explicit actual public-use consent. It cannot establish authenticity, rights or who granted permission; native published placement remains an effect.
+Native isLiked adds imported proof to the Wall of Love, default false. This package refuses isLiked true without explicit actual public-use consent. It cannot establish authenticity, rights or who granted permission; native published placement remains an effect.
 
 </details>
 
@@ -1695,28 +1716,28 @@ The current endpoint returns one newest-first array for the selected Space key. 
 <details>
 <summary><b>Is an export a complete backup?</b></summary>
 
-No. One bounded native response is saved to a new private JSON file, defaultlimit100/localmaximum10000/5MiB cap. Receipt completeBackup and atomicSnapshot remainfalse. Filtering, processing and changing native state limit visibility; there is no pagination, resume or media download.
+No. One bounded native response is saved to a new private JSON file, defaultlimit 100/localmaximum 10,000/5MiB cap. Receipt completeBackup and atomicSnapshot remain false. Filtering, processing and changing native state limit visibility; there is no pagination, resume or media download.
 
 </details>
 
 <details>
 <summary><b>Can exports overwrite files?</b></summary>
 
-No. Exclusive creation refuses existing paths/symlinks before any request. Failure removes only the new partial file. POSIX files use0600; restrict Windows ACLs separately. Returned metadata never echoes the private customer array.
+No. Exclusive creation refuses existing paths/symlinks before any request. Failure removes only the new partial file. POSIX files use 0600; restrict Windows ACLs separately. Returned metadata never echoes the private customer array.
 
 </details>
 
 <details>
 <summary><b>What does a reviewed batch guarantee?</b></summary>
 
-Every1–20 exact ordered operation is validated before the first request; hash binds requests/order/profile label/schema. It is not a key fingerprint, provider-state lock, customer permission record, expiry or single-use approval token. Preview makes no network call or key load.
+Every 1–20 exact ordered operation is validated before the first request; hash binds requests/order/profile label/schema. It is not a key fingerprint, provider-state lock, customer permission record, expiry or single-use approval token. Preview makes no network call or key load.
 
 </details>
 
 <details>
 <summary><b>What happens if a batch fails?</b></summary>
 
-Stop immediately with knownResults, failedIndex and unattemptedIndices; HTTP200 statusfailed is an error. Unknown native outcomes may remain. No retry, rollback or automatic continuation occurs; inspect native state before deliberately repeating.
+Stop immediately with knownResults, failedIndex and unattemptedIndices; HTTP 200 status failed is an error. Unknown native outcomes may remain. No retry, rollback or automatic continuation occurs; inspect native state before deliberately repeating.
 
 </details>
 
@@ -1730,7 +1751,7 @@ No. READ_ONLY hides and directly refuses all five effect/file tools. ALLOW_DESTR
 <details>
 <summary><b>Which clients and operating systems work?</b></summary>
 
-Node22+ local stdio clients and the CLI work on macOS, Windows and Linux; INSTALL documents Codex first, Claude Code/Desktop, Cursor, VS Code/Copilot, Windsurf, Zed, Gemini CLI, Docker and other stdio clients. Browser-only clients need a supported remote connector, such as the official MCP. Protocol/CI evidence is not actual GUI installation.
+Node 22+ local stdio clients and the CLI work on macOS, Windows and Linux; INSTALL documents Codex first, Claude Code/Desktop, Cursor, VS Code/Copilot, Windsurf, Zed, Gemini CLI, Docker and other stdio clients. Browser-only clients need a supported remote connector, such as the official MCP. Protocol/CI evidence is not actual GUI installation.
 
 </details>
 
@@ -1763,7 +1784,18 @@ If this is useful, star the repo and come say hi on [X](https://x.com/thenavidm)
 
 ## Dependencies
 
-Runtime: MCP TypeScript SDK, Ajv and ajv-formats. Development: TypeScript, Vitest, Vite and MCPB. Exact locked versions appear above. Packaging tools are excluded from desktop runtime.
+| Dependency | Exact lock version | Role |
+| --- | --- | --- |
+| `@modelcontextprotocol/sdk` | 1.32.0 | Runtime |
+| `ajv` | 8.20.0 | Runtime |
+| `ajv-formats` | 3.0.1 | Runtime |
+| `@anthropic-ai/mcpb` | 2.1.2 | Development/packaging |
+| `@types/node` | 22.20.5 | Development/packaging |
+| `typescript` | 7.0.2 | Development/packaging |
+| `vite` | 8.3.2 | Development/packaging |
+| `vitest` | 5.0.3 | Development/packaging |
+
+These versions are from this release’s package-lock.json. Runtime dependencies ship in npm and the desktop bundle; packaging tools do not enter the desktop runtime.
 
 ## License
 
