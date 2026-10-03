@@ -1,0 +1,302 @@
+[
+  {
+    "name": "list_testimonials",
+    "method": "GET",
+    "path": "/testimonials",
+    "title": "List ready Space testimonials",
+    "description": "Read one native JSON array. Only ready video assets are included; no page, cursor or offset parameters.",
+    "group": "testimonials",
+    "risk": "read",
+    "params": [
+      {
+        "name": "type",
+        "key": "type",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "text",
+            "video"
+          ]
+        },
+        "in": "query",
+        "required": false,
+        "style": "form",
+        "explode": true
+      },
+      {
+        "name": "liked",
+        "key": "liked",
+        "schema": {
+          "type": "boolean",
+          "description": "Native Wall of Love filter."
+        },
+        "in": "query",
+        "required": false,
+        "style": "form",
+        "explode": true
+      },
+      {
+        "name": "highlighted",
+        "key": "highlighted",
+        "schema": {
+          "type": "boolean",
+          "description": "Native highlighted filter."
+        },
+        "in": "query",
+        "required": false,
+        "style": "form",
+        "explode": true
+      },
+      {
+        "name": "tag",
+        "key": "tag",
+        "schema": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "description": ""
+          },
+          "description": "Repeated native tag display names; native OR match."
+        },
+        "in": "query",
+        "required": false,
+        "style": "form",
+        "explode": true
+      },
+      {
+        "name": "limit",
+        "key": "limit",
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000,
+          "description": "Native result cap; 10000 is a local maximum, not a documented provider quota. No pagination."
+        },
+        "in": "query",
+        "required": false,
+        "style": "form",
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "source": "https://help.testimonial.to/en/articles/6223143-api-get-all-testimonials"
+  },
+  {
+    "name": "verify_space",
+    "method": "GET",
+    "path": "/verify",
+    "title": "Verify the selected Space key",
+    "description": "Explicit native key verification. Response includes Space id and account email; private metadata, not ownership or all-action proof.",
+    "group": "space",
+    "risk": "read",
+    "params": [],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "source": "https://help.testimonial.to/en/articles/6223143-api-get-all-testimonials"
+  },
+  {
+    "name": "submit_text_testimonial",
+    "method": "POST",
+    "path": "/submit/text",
+    "title": "Submit an authorized text testimonial",
+    "description": "Import a real authorized customer statement. Local confirm approves the API call; customer_consent or payload.confirm represents actual public-use permission.",
+    "group": "testimonials",
+    "risk": "destructive",
+    "params": [],
+    "bodySchema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Actual submitter name."
+        },
+        "email": {
+          "type": "string",
+          "minLength": 1,
+          "description": "",
+          "format": "email"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Native combined title/company."
+        },
+        "socialLink": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Native social profile value."
+        },
+        "confirm": {
+          "type": "boolean",
+          "description": "Native customer permission for public use, false by default. Independent from local command approval."
+        },
+        "isLiked": {
+          "type": "boolean",
+          "description": "Add to Wall of Love, false by default; local public-use consent is required if true."
+        },
+        "testimonial": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Actual authorized statement."
+        },
+        "rating": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "avatarURL": {
+          "type": "string",
+          "minLength": 1,
+          "description": "",
+          "format": "uri"
+        },
+        "attachedImageURL": {
+          "type": "string",
+          "minLength": 1,
+          "description": "",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "testimonial",
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "bodyRequired": true,
+    "privateOutput": false,
+    "source": "https://help.testimonial.to/en/articles/6451677-api-submit-a-text-testimonial"
+  },
+  {
+    "name": "submit_video_testimonial",
+    "method": "POST",
+    "path": "/submit/video",
+    "title": "Submit an authorized video testimonial",
+    "description": "Import a real publicly accessible authorized video. Provider retrieves/processes the URL; this package never downloads it. Success does not mean processing finished.",
+    "group": "testimonials",
+    "risk": "destructive",
+    "params": [],
+    "bodySchema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Actual submitter name."
+        },
+        "email": {
+          "type": "string",
+          "minLength": 1,
+          "description": "",
+          "format": "email"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Native combined title/company."
+        },
+        "socialLink": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Native social profile value."
+        },
+        "confirm": {
+          "type": "boolean",
+          "description": "Native customer permission for public use, false by default. Independent from local command approval."
+        },
+        "isLiked": {
+          "type": "boolean",
+          "description": "Add to Wall of Love, false by default; local public-use consent is required if true."
+        },
+        "videoURL": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Existing public HTTPS video URL without credentials.",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "videoURL",
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "bodyRequired": true,
+    "privateOutput": false,
+    "source": "https://help.testimonial.to/en/articles/6236786-api-submit-a-video-testimonial"
+  },
+  {
+    "name": "send_testimonial_request",
+    "method": "GET",
+    "path": "/new/request",
+    "title": "Send a requested testimonial email",
+    "description": "Side-effecting GET sends a real request email. Explicit local confirmation is mandatory. No dry run, retry or delivery guarantee.",
+    "group": "testimonials",
+    "risk": "destructive",
+    "params": [
+      {
+        "name": "name",
+        "key": "name",
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Actual approved email context."
+        },
+        "in": "query",
+        "required": true,
+        "style": "form",
+        "explode": true
+      },
+      {
+        "name": "email",
+        "key": "email",
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Actual approved email context.",
+          "format": "email"
+        },
+        "in": "query",
+        "required": true,
+        "style": "form",
+        "explode": true
+      },
+      {
+        "name": "spaceName",
+        "key": "spaceName",
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Actual approved email context."
+        },
+        "in": "query",
+        "required": true,
+        "style": "form",
+        "explode": true
+      },
+      {
+        "name": "adminName",
+        "key": "adminName",
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Actual approved email context."
+        },
+        "in": "query",
+        "required": true,
+        "style": "form",
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "source": "https://help.testimonial.to/en/articles/6223146-api-send-request"
+  }
+]
