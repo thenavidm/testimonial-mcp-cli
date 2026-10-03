@@ -1,6 +1,6 @@
 {
   "name": "@thenavidm/testimonial-mcp-cli",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Testimonial.to shared task CLI and local MCP for current Space REST, separate public-use consent, exact reviewed imports and private bounded exports.",
   "type": "module",
   "main": "./dist/index.js",

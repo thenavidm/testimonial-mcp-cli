@@ -195,7 +195,7 @@ Alternatively install the CLI, make SKILL.md available to Claude, and use shell 
 
 #### Install the .mcpb extension
 
-1. Download `testimonial-2.0.0.mcpb` from [GitHub Releases](https://github.com/thenavidm/testimonial-mcp-cli/releases/latest).
+1. Download `testimonial-2.0.1.mcpb` from [GitHub Releases](https://github.com/thenavidm/testimonial-mcp-cli/releases/latest).
 2. In a supported Claude Desktop build, open **Settings > Extensions > Advanced settings > Install Extension…** and select it.
 3. Enter a private Space API key in the sensitive setting, OR an absolute private token-only file path. Leave the unused method empty. Requests use Authorization: Bearer. Named profiles require private manual runtime settings.
 4. Enable read-only if you want only the 5 read operations. Reconnect and verify the intended Space with one deliberate read.
@@ -589,7 +589,7 @@ Import a real authorized customer statement. Local confirm approves the API call
 | `attachedImageURL` | string | Optional | {"format": "uri"} |
 | `account` | string | Optional | Exact configured private account profile label; not a tenant or provider account ID. |
 | `confirm` | boolean | Optional | Must be true for the requested mutation or exclusive private output file. |
-| `payload` | object | Optional | Complete native JSON body; do not mix with body flags or payload_file. Arrays use repeated JSON object flags or a whole native array in a private file. |
+| `payload` | object | Optional | Complete native testimonial JSON object; do not mix with body flags or payload_file. |
 | `payload.name` | string | Required | Actual submitter name. |
 | `payload.email` | string | Optional | {"format": "email"} |
 | `payload.title` | string | Optional | Native combined title/company. |
@@ -730,7 +730,7 @@ testimonial-cli schema submit-text-testimonial
         "name"
       ],
       "additionalProperties": false,
-      "description": "Complete native JSON body; do not mix with body flags or payload_file. Arrays use repeated JSON object flags or a whole native array in a private file."
+      "description": "Complete native testimonial JSON object; do not mix with body flags or payload_file."
     },
     "payload_file": {
       "type": "string",
@@ -837,7 +837,7 @@ Import a real publicly accessible authorized video. Provider retrieves/processes
 | `videoURL` | string | Optional | Existing public HTTPS video URL without credentials. {"format": "uri"} |
 | `account` | string | Optional | Exact configured private account profile label; not a tenant or provider account ID. |
 | `confirm` | boolean | Optional | Must be true for the requested mutation or exclusive private output file. |
-| `payload` | object | Optional | Complete native JSON body; do not mix with body flags or payload_file. Arrays use repeated JSON object flags or a whole native array in a private file. |
+| `payload` | object | Optional | Complete native testimonial JSON object; do not mix with body flags or payload_file. |
 | `payload.name` | string | Required | Actual submitter name. |
 | `payload.email` | string | Optional | {"format": "email"} |
 | `payload.title` | string | Optional | Native combined title/company. |
@@ -943,7 +943,7 @@ testimonial-cli schema submit-video-testimonial
         "name"
       ],
       "additionalProperties": false,
-      "description": "Complete native JSON body; do not mix with body flags or payload_file. Arrays use repeated JSON object flags or a whole native array in a private file."
+      "description": "Complete native testimonial JSON object; do not mix with body flags or payload_file."
     },
     "payload_file": {
       "type": "string",
@@ -1345,7 +1345,7 @@ testimonial-cli schema submit-testimonial-batch
 
 #### export_testimonials
 
-Confirmed single native GET saved to a new exclusive mode 0600 JSON file, default limit 100/local max10000 and 5 MiB response/file cap. No pagination, continuation, media download, overwrite or atomic complete-backup claim.
+Confirmed single native GET saved to a new exclusive mode 0600 JSON file, default limit 100/local maximum 10,000 and 5 MiB response/file cap. No pagination, continuation, media download, overwrite or atomic complete-backup claim.
 
 | Argument | Type | Required | Meaning and constraints |
 | --- | --- | --- | --- |
@@ -1355,7 +1355,7 @@ Confirmed single native GET saved to a new exclusive mode 0600 JSON file, defaul
 | `tag` | array | Optional | Repeated native tag display names; native OR match. {"maxItems": 100} |
 | `limit` | integer | Optional | Native result cap; 10000 is a local maximum, not a documented provider quota. No pagination. {"minimum": 1, "maximum": 10000} |
 | `account` | string | Optional | Exact configured private account profile label; not a tenant or provider account ID. |
-| `confirm` | boolean | Optional | Explicit approval for this exact requested ordered batch. |
+| `confirm` | boolean | Optional | Explicit approval to save this bounded response to a new private file. |
 | `output_file` | string | Required | Absolute new file in an existing private directory; restrict Windows ACLs separately. |
 
 ~~~bash
@@ -1404,7 +1404,7 @@ testimonial-cli schema export-testimonials
     },
     "confirm": {
       "type": "boolean",
-      "description": "Explicit approval for this exact requested ordered batch."
+      "description": "Explicit approval to save this bounded response to a new private file."
     },
     "output_file": {
       "type": "string",
@@ -1539,14 +1539,14 @@ Native arrays and verify metadata can include names, emails, Space identifiers, 
 | Setting | Meaning |
 | --- | --- |
 | TESTIMONIAL_API_KEY | One private Space Bearer key; do not combine with token file |
-| TESTIMONIAL_TOKEN_FILE | Absolute owner-only token-only file, max64KiB; cached until restart |
+| TESTIMONIAL_TOKEN_FILE | Absolute owner-only token-only file, maximum 64 KiB; cached until restart |
 | TESTIMONIAL_ACCOUNTS | Private JSON array of unique name/api_key/token_file profiles; no fallback |
 | TESTIMONIAL_DEFAULT_ACCOUNT | Exact private profile label |
 | TESTIMONIAL_READ_ONLY | 1/true hides and refuses effects |
 | TESTIMONIAL_ALLOW_DESTRUCTIVE | 0/false refuses confirmed effects too |
 | TESTIMONIAL_AUDIT_LOG | Optional private append-only guard decisions |
-| TESTIMONIAL_REQUEST_TIMEOUT_MS | 100–300000, default30000; no retry |
-| TESTIMONIAL_MIN_REQUEST_INTERVAL_MS | 0–10000, default250; local spacing, not quota |
+| TESTIMONIAL_REQUEST_TIMEOUT_MS | 100–300000, default 30000 ms; no retry |
+| TESTIMONIAL_MIN_REQUEST_INTERVAL_MS | 0–10000, default 250 ms; local spacing, not quota |
 
 ## 16. Updates and removal
 
@@ -1599,7 +1599,7 @@ No universal superiority, more-total-provider-coverage or measured token saving 
 
 ## 19. Versions and migration
 
-| Legacy tool | Current 2.0.0 contract |
+| Legacy tool | Current 2.0.1 contract |
 | --- | --- |
 | list_testimonials | Same name, selected Space key, native single-array filters; no spaceId/page/per_page |
 | submit_text_testimonial | Same name, POST/submit/text with testimonial/name and separate consent |
@@ -1607,18 +1607,18 @@ No universal superiority, more-total-provider-coverage or measured token saving 
 | update_testimonial | Excluded: current reviewed REST contract not established; use hosted MCP/dashboard |
 | send_testimonial_request | Same name, confirmed GET/new/request with four required fields |
 
-Private five-tool 1.0.0 history stays intact and out of public refs. Version 2.0.0 is a major native argument/route correction, not a claim every legacy capability remains valid. AGPL-3.0 is preserved.
+Private five-tool 1.0.0 history stays intact and out of public refs. Version 2.0.1 is a major native argument/route correction, not a claim every legacy capability remains valid. AGPL-3.0 is preserved.
 
 | Component | Reviewed version |
 | --- | --- |
-| Package/desktop | 2.0.0 |
+| Package/desktop | 2.0.1 |
 | Native REST | v1, five operations checked 2026-10-03 |
 | Generic MCP CLI | 7d12b4648b1c3e2a7341113407002c1b0f700d1b |
 | Node | >=22 |
 | Behavior/bridge checks | 54 passing tests |
 | Actual Codex task/token use | Pending |
 
-[CHANGELOG.md](CHANGELOG.md) records dated changes.
+[CHANGELOG.md](CHANGELOG.md) records dated changes. Version 2.0.0 introduced the current REST companion; 2.0.1 corrects export approval and payload help. Native routes, approval behavior and ten-tool coverage are unchanged.
 
 ## 20. FAQ
 
@@ -1716,7 +1716,7 @@ The current endpoint returns one newest-first array for the selected Space key. 
 <details>
 <summary><b>Is an export a complete backup?</b></summary>
 
-No. One bounded native response is saved to a new private JSON file, defaultlimit 100/localmaximum 10,000/5MiB cap. Receipt completeBackup and atomicSnapshot remain false. Filtering, processing and changing native state limit visibility; there is no pagination, resume or media download.
+No. One bounded native response is saved to a new private JSON file, default limit 100, local maximum 10,000 and 5 MiB cap. Receipt completeBackup and atomicSnapshot remain false. Filtering, processing and changing native state limit visibility; there is no pagination, resume or media download.
 
 </details>
 
