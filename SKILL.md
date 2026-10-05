@@ -16,7 +16,7 @@ testimonial-cli send-testimonial-request --help
 testimonial-cli list-testimonials --limit 5 --agent
 ~~~
 
-All imports, request emails, reviewed execution and private file writes require explicit local confirm or --confirm. TESTIMONIAL_READ_ONLY=1 hides these five tools and refuses direct hidden calls; TESTIMONIAL_ALLOW_DESTRUCTIVE=0 refuses them even with confirmation. --agent and --yes are output/non-interactive settings, not approval.
+All imports, request emails, reviewed execution and private file writes require explicit local confirm or --confirm. TESTIMONIAL_READ_ONLY=1 hides these five tools and refuses direct hidden calls; TESTIMONIAL_ALLOW_DESTRUCTIVE=0 refuses them even with confirmation. --agent and --yes are output/non-interactive settings, not approval. Over MCP the person approves each in the client's own prompt or form; confirm:true counts only where the client cannot ask. testimonial-cli which <words> finds the command for a task.
 
 Native public-use consent remains independent and false by default. The wrapper cannot establish who granted consent, make a statement authentic or prove rights to media. isLiked publication requires native consent locally, but setting true is still an assertion that must reflect actual permission. Invoke only the action explicitly requested. Never import, publish or email just to test installation.
 
@@ -59,7 +59,8 @@ Both underscore and kebab tool spellings route through the same handler. Repeate
 | Exit | Meaning |
 | --- | --- |
 | 0 | Success |
-| 2 | Usage/schema/refused effect |
+| 1 | Unexpected error |
+| 2 | Usage/schema/refused effect, an unknown command or a hidden write |
 | 3 | Not found |
 | 4 | Authentication/permission |
 | 5 | Native API error |

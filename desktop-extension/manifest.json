@@ -2,7 +2,7 @@
   "manifest_version": "0.2",
   "name": "testimonial",
   "display_name": "Testimonial.to MCP Server & CLI",
-  "version": "2.0.2",
+  "version": "3.0.0",
   "description": "10 shared tools for current Testimonial.to Space REST, separate customer consent, reviewed imports/emails and bounded private single-array exports.",
   "long_description": "Focused current Space REST companion with shared task CLI and local MCP. Native customer permission stays separate from local approval; GET email is a confirmed effect. Direct read-only guard, isolated Space keys, no browser import, pagination or retry. Official hosted MCP covers wider workflows.",
   "author": {

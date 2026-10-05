@@ -27,8 +27,8 @@ No universal superiority, more-total-provider-coverage or measured token saving 
 | Profiles | Private named Space keys with no fallback | Hosted browser authorization or native token connection |
 | Reviewed work | Exact ordered imports/emails, prevalidation and stop on failure | No provider-state lock or replacement for customer permission |
 | Exports | One bounded array to a new private file | No pagination, atomic backup or media download |
-| Token costs | Actual matched Codex task measurement pending | No blanket MCP-versus-CLI percentage |
+| Token costs | Measured against 2.0.2 in README section 7 | No comparison with another offering |
 
 MCP can load all schemas, defer discovery or load selected tools; the client mode changes input overhead. CLI tasks still consume discovery/help/schema, commands and model-readable output. --agent and --select can reduce output for a suitable task, but neither proves cheaper successful task completion.
 
-Codex is the active client. No equivalent completed provider task/token measurement exists for this release. Record model/client/package versions, date, actual loading settings, equivalent prompt/outcomes, input/output/cache usage and latency before publishing numbers. Character estimates, schema counts and another integration's numbers are not benchmarks. Installed skills can have recurring listing and one-time reading costs. Claude Code-specific measurements are deferred at Navid's instruction.
+README section 7 has this package's measured Claude Code and Codex costs against 2.0.2. No other offering was measured, so no comparison with one is claimed.

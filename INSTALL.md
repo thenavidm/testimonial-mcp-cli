@@ -81,7 +81,7 @@ Alternatively install the CLI, make SKILL.md available to Claude, and use shell 
 
 ### Install the .mcpb extension
 
-1. Download `testimonial-2.0.1.mcpb` from [GitHub Releases](https://github.com/thenavidm/testimonial-mcp-cli/releases/latest).
+1. Download `testimonial-3.0.0.mcpb` from [GitHub Releases](https://github.com/thenavidm/testimonial-mcp-cli/releases/latest).
 2. In a supported Claude Desktop build, open **Settings > Extensions > Advanced settings > Install Extension…** and select it.
 3. Enter a private Space API key in the sensitive setting, OR an absolute private token-only file path. Leave the unused method empty. Requests use Authorization: Bearer. Named profiles require private manual runtime settings.
 4. Enable read-only if you want only the 5 read operations. Reconnect and verify the intended Space with one deliberate read.

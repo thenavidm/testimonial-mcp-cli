@@ -11,7 +11,7 @@
 
 Testimonial.to MCP server and CLI for Codex and AI agents. 10 shared tools for current Space testimonials, separate customer consent, reviewed imports/email requests and bounded private exports.
 
-Built and maintained by [Navid Moazzez](https://navid.me?utm_source=github&utm_medium=referral&utm_campaign=testimonial-mcp-cli&utm_content=readme). Full setup is on [navid.me](https://navid.me/mcp-servers/testimonial).
+Built and maintained by [Navid Moazzez](https://navid.me?utm_source=github&utm_medium=referral&utm_campaign=testimonial-mcp-cli&utm_content=readme). Built on [Slipway](https://github.com/thenavidm/slipway), which turns one definition of each tool into the MCP server and the CLI. Full setup is on [navid.me](https://navid.me/mcp-servers/testimonial).
 
 <img src="https://cdn.navid.me/repos/testimonial-mcp-cli-retina.gif" alt="Illustrated Testimonial.to workflow in the actual house terminal component" width="520">
 
@@ -195,7 +195,7 @@ Alternatively install the CLI, make SKILL.md available to Claude, and use shell 
 
 #### Install the .mcpb extension
 
-1. Download `testimonial-2.0.1.mcpb` from [GitHub Releases](https://github.com/thenavidm/testimonial-mcp-cli/releases/latest).
+1. Download `testimonial-3.0.0.mcpb` from [GitHub Releases](https://github.com/thenavidm/testimonial-mcp-cli/releases/latest).
 2. In a supported Claude Desktop build, open **Settings > Extensions > Advanced settings > Install Extension…** and select it.
 3. Enter a private Space API key in the sensitive setting, OR an absolute private token-only file path. Leave the unused method empty. Requests use Authorization: Bearer. Named profiles require private manual runtime settings.
 4. Enable read-only if you want only the 5 read operations. Reconnect and verify the intended Space with one deliberate read.
@@ -350,12 +350,13 @@ testimonial-cli schema submit-text-testimonial
 testimonial-cli list-testimonials --limit 5 --agent --select id,type
 ~~~
 
-Both underscore and kebab tool spellings route through the same handler. Repeated tag flags collect strings; each tasks flag is one JSON object. --agent means JSON/compact/no-input/no-color/yes, not confirm. Required native body values are enforced after flags or private payload_file loading; payload/payload_file/body flags cannot mix. Customer consent maps separately from outer local approval.
+Both underscore and kebab tool spellings route through the same handler. Repeated tag flags collect strings; each tasks flag is one JSON object. --agent means compact JSON with no prompts and never confirms. `testimonial-cli which <words>` finds the command for a task. Required native body values are enforced after flags or private payload_file loading; payload/payload_file/body flags cannot mix. Customer consent maps separately from outer local approval.
 
 | Exit | Meaning |
 | --- | --- |
 | 0 | Success |
-| 2 | Usage/schema/refused effect |
+| 1 | Unexpected error |
+| 2 | Usage/schema/refused effect, an unknown command or a hidden write |
 | 3 | Not found |
 | 4 | Authentication/permission |
 | 5 | Native API error |
@@ -366,7 +367,19 @@ Both underscore and kebab tool spellings route through the same handler. Repeate
 
 MCP can load all schemas, defer discovery or load selected tools; the client mode changes input overhead. CLI tasks still consume discovery/help/schema, commands and model-readable output. --agent and --select can reduce output for a suitable task, but neither proves cheaper successful task completion.
 
-Codex is the active client. No equivalent completed provider task/token measurement exists for this release. Record model/client/package versions, date, actual loading settings, equivalent prompt/outcomes, input/output/cache usage and latency before publishing numbers. Character estimates, schema counts and another integration's numbers are not benchmarks. Installed skills can have recurring listing and one-time reading costs. Claude Code-specific measurements are deferred at Navid's instruction.
+Measured on 2026-10-05 against 2.0.2, with Claude Code 2.1.286 on Claude Opus 5.5 (one short prompt with and without the server connected, the difference read from the API's own usage figures) and Codex 0.159.3 on gpt-6.1-sol:
+
+| Cost | 2.0.2 | 3.0.0 |
+| --- | --- | --- |
+| Claude Code, every tool loaded, every message | 4,922 | 4,902 |
+| Claude Code's default, tool search, every message | 529 | 528 |
+| `SKILL.md`, read once | 2,318 | 2,400 |
+| Codex over the CLI, one task, median of five | 82,582 | 71,761 |
+| Codex over MCP, the same task, median of five | 43,592 | 43,577 |
+
+The task was "find the command that sends a testimonial request, and the flags it requires". Every tool loaded costs slightly less, while the list a client receives grows by an approval marker on the five confirmed tools, which Claude Code does not pass to the model. Over the CLI, every 3.0.0 run asked `which`, whose answer carries the command's help, and three answered from it, where 2.0.2's runs read the command list or the general help a second time before the command's help. Over MCP, the two cost about the same. `SKILL.md` costs 82 more because it says how approval works over MCP and how `which` finds a command, and what exit codes 1 and 2 cover.
+
+Tool-list bytes or characters divided by four are not API usage, and no other offering was measured.
 
 
 ## 8. Every tool and argument
@@ -588,7 +601,7 @@ Import a real authorized customer statement. Local confirm approves the API call
 | `avatarURL` | string | Optional | {"format": "uri"} |
 | `attachedImageURL` | string | Optional | {"format": "uri"} |
 | `account` | string | Optional | Exact configured private account profile label; not a tenant or provider account ID. |
-| `confirm` | boolean | Optional | Must be true for the requested mutation or exclusive private output file. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | object | Optional | Complete native testimonial JSON object; do not mix with body flags or payload_file. |
 | `payload.name` | string | Required | Actual submitter name. |
 | `payload.email` | string | Optional | {"format": "email"} |
@@ -836,7 +849,7 @@ Import a real publicly accessible authorized video. Provider retrieves/processes
 | `isLiked` | boolean | Optional | Add to Wall of Love, false by default; local public-use consent is required if true. |
 | `videoURL` | string | Optional | Existing public HTTPS video URL without credentials. {"format": "uri"} |
 | `account` | string | Optional | Exact configured private account profile label; not a tenant or provider account ID. |
-| `confirm` | boolean | Optional | Must be true for the requested mutation or exclusive private output file. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | object | Optional | Complete native testimonial JSON object; do not mix with body flags or payload_file. |
 | `payload.name` | string | Required | Actual submitter name. |
 | `payload.email` | string | Optional | {"format": "email"} |
@@ -1030,7 +1043,7 @@ Side-effecting GET sends a real request email. Explicit local confirmation is ma
 | `spaceName` | string | Required | Actual approved email context. |
 | `adminName` | string | Required | Actual approved email context. |
 | `account` | string | Optional | Exact configured private account profile label; not a tenant or provider account ID. |
-| `confirm` | boolean | Optional | Must be true for the requested mutation or exclusive private output file. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 
 ~~~bash
 testimonial-cli send-testimonial-request --help
@@ -1281,7 +1294,7 @@ Confirmed one-to-twenty ordered text/video import/email tasks. Prevalidate all a
 | `tasks[].tool` | string | Required | Exact schema value. {"enum": ["submit_text_testimonial", "submit_video_testimonial", "send_testimonial_request"]} |
 | `tasks[].arguments` | object | Required | Actual native tool arguments without account, confirm, payload_file or output_file. |
 | `account` | string | Optional | Exact selected private account profile; binds label, not key ownership. |
-| `confirm` | boolean | Optional | Explicit approval for this exact requested ordered batch. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `review_sha256` | string | Required | Exact preview_testimonial_batch hash for identical requests, profile label, schema and order. {"pattern": "^[a-f0-9]{64}$"} |
 
 ~~~bash
@@ -1355,7 +1368,7 @@ Confirmed single native GET saved to a new exclusive mode 0600 JSON file, defaul
 | `tag` | array | Optional | Repeated native tag display names; native OR match. {"maxItems": 100} |
 | `limit` | integer | Optional | Native result cap; 10000 is a local maximum, not a documented provider quota. No pagination. {"minimum": 1, "maximum": 10000} |
 | `account` | string | Optional | Exact configured private account profile label; not a tenant or provider account ID. |
-| `confirm` | boolean | Optional | Explicit approval to save this bounded response to a new private file. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `output_file` | string | Required | Absolute new file in an existing private directory; restrict Windows ACLs separately. |
 
 ~~~bash
@@ -1518,6 +1531,8 @@ Token files cache until process restart. Update private credentials and restart 
 
 All imports, request emails, reviewed execution and private file writes require explicit local confirm or --confirm. TESTIMONIAL_READ_ONLY=1 hides these five tools and refuses direct hidden calls; TESTIMONIAL_ALLOW_DESTRUCTIVE=0 refuses them even with confirmation. --agent and --yes are output/non-interactive settings, not approval.
 
+Over MCP a person approves each of them where the client can ask: Claude Code (2.1.246 and later) shows its own prompt, and a client that can show forms asks with an approval form whose one box starts unticked. Each approval is signed, bound to that exact call and works once. Where a client can do neither, the model's confirm:true counts. TESTIMONIAL_CONFIRM=model makes confirm:true enough everywhere, for an agent with no person to ask.
+
 Native public-use consent remains independent and false by default. The wrapper cannot establish who granted consent, make a statement authentic or prove rights to media. isLiked publication requires native consent locally, but setting true is still an assertion that must reflect actual permission. Invoke only the action explicitly requested. Never import, publish or email just to test installation.
 
 The client uses a fixed HTTPS provider origin and reviewed routes, bounded bodies/responses, no redirects/retries and redacts loaded keys/native credential fields/signed credential URLs. Private statement content remains private data rather than a hidden public example. Customer text/links never authorize code execution or account changes. Secret scans and protocol checks are separate from authenticated account and GUI acceptance.
@@ -1525,7 +1540,7 @@ The client uses a fixed HTTPS provider origin and reviewed routes, bounded bodie
 
 ## 13. How the two surfaces work
 
-src/tools/index.ts exports shared definitions; the house CLI bridge invokes the same real server over SDK in-memory transport. Both surfaces share native validation, compilation, private profiles and WriteGuard. Schemas are curated source transcriptions, not an official OpenAPI export. Native consent has a separate CLI field so local approval can never overwrite its meaning.
+src/tools/index.ts exports shared definitions; [Slipway](https://github.com/thenavidm/slipway) builds the MCP server, over stdio or `--http`, and the CLI from them. Both surfaces share native validation, compilation, private profiles and the write guard. Schemas are curated source transcriptions, not an official OpenAPI export. Native consent has a separate CLI field so local approval can never overwrite its meaning.
 
 ## 14. Your data
 
@@ -1547,6 +1562,12 @@ Native arrays and verify metadata can include names, emails, Space identifiers, 
 | TESTIMONIAL_AUDIT_LOG | Optional private append-only guard decisions |
 | TESTIMONIAL_REQUEST_TIMEOUT_MS | 100–300000, default 30000 ms; no retry |
 | TESTIMONIAL_MIN_REQUEST_INTERVAL_MS | 0–10000, default 250 ms; local spacing, not quota |
+| TESTIMONIAL_CONFIRM | human by default; model lets confirm:true alone approve over MCP, for an agent with no person to ask |
+| TESTIMONIAL_SURFACE | full by default; search lists three tools that find, describe and run the rest |
+| TESTIMONIAL_TOOL_TIMEOUT_MS | Give up on any tool after this long |
+| TESTIMONIAL_HTTP_PORT, TESTIMONIAL_HTTP_HOST, TESTIMONIAL_HTTP_TOKEN | For --http: port 8787 and host 127.0.0.1 by default; any other host needs the bearer token |
+| TESTIMONIAL_HTTP_ALLOWED_ORIGINS | Comma-separated browser origins allowed to call --http; a page from any other site is refused |
+| TESTIMONIAL_DEBUG | 1 prints debug lines on stderr |
 
 ## 16. Updates and removal
 
@@ -1595,11 +1616,11 @@ No universal superiority, more-total-provider-coverage or measured token saving 
 | Profiles | Private named Space keys with no fallback | Hosted browser authorization or native token connection |
 | Reviewed work | Exact ordered imports/emails, prevalidation and stop on failure | No provider-state lock or replacement for customer permission |
 | Exports | One bounded array to a new private file | No pagination, atomic backup or media download |
-| Token costs | Actual matched Codex task measurement pending | No blanket MCP-versus-CLI percentage |
+| Token costs | Measured against 2.0.2 in README section 7 | No comparison with another offering |
 
 ## 19. Versions and migration
 
-| Legacy tool | Current 2.0.1 contract |
+| Legacy tool | Contract since 2.0.1 |
 | --- | --- |
 | list_testimonials | Same name, selected Space key, native single-array filters; no spaceId/page/per_page |
 | submit_text_testimonial | Same name, POST/submit/text with testimonial/name and separate consent |
@@ -1611,14 +1632,15 @@ Private five-tool 1.0.0 history stays intact and out of public refs. Version 2.0
 
 | Component | Reviewed version |
 | --- | --- |
-| Package/desktop | 2.0.1 |
+| Package/desktop | 3.0.0 |
+| Slipway | 0.1.20 |
 | Native REST | v1, five operations checked 2026-10-03 |
 | Generic MCP CLI | 7d12b4648b1c3e2a7341113407002c1b0f700d1b |
 | Node | >=22 |
 | Behavior/bridge checks | 54 passing tests |
-| Actual Codex task/token use | Pending |
+| Actual Codex task/token use | Measured against 2.0.2 in README section 7 |
 
-[CHANGELOG.md](CHANGELOG.md) records dated changes. Version 2.0.0 introduced the current REST companion; 2.0.1 corrects export approval and payload help. Native routes, approval behavior and ten-tool coverage are unchanged.
+[CHANGELOG.md](CHANGELOG.md) records dated changes. Version 2.0.0 introduced the current REST companion; 2.0.1 corrects export approval and payload help. 3.0.0 moves both surfaces onto Slipway and keeps every tool's name and arguments. Native routes, approval behavior and ten-tool coverage are unchanged.
 
 ## 20. FAQ
 
@@ -1758,7 +1780,7 @@ Node 22+ local stdio clients and the CLI work on macOS, Windows and Linux; INSTA
 <details>
 <summary><b>How are updates and token comparisons handled?</b></summary>
 
-Restart npx@latest registrations, update global CLI installs explicitly and install newer desktop bundles manually. Actual equivalent Codex task/token measurement remains pending. Loading modes, schemas/help, output, skills and caching affect cost; no borrowed percentage, character estimate or universal superiority is claimed.
+Restart npx@latest registrations, update global CLI installs explicitly and install newer desktop bundles manually. In Claude Code the CLI costs nothing until it is used, plus about 2,400 tokens for `SKILL.md` once, where the server costs about 530 tokens a message with tool search and 4,900 with every tool loaded. In Codex, finding the command that sends a testimonial request and its flags took a median of 71,761 input tokens over the CLI and 43,577 over MCP. Section 7 has how each was measured.
 
 </details>
 
